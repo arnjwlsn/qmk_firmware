@@ -18,12 +18,14 @@ enum layers {
 #define LALT_Z LALT_T(KC_Z)     // Left Alt when held, Z when tapped
 #define LCTL_BS LCTL_T(KC_BSLS) // Left Alt when held, Z when tapped
 
+// Combos
 #define PRV_WS LCTL(LWIN(KC_LEFT))  // Previous workspace
 #define NXT_WS LCTL(LWIN(KC_RIGHT)) // Next workspace
 #define WIN_BS LWIN(KC_BSLS)        // Show windows Pop_OS
+#define LOG_OUT LWIN(KC_L)          // Log out
 
-#define DEL_LN LCMD(KC_BSPC) // Delete a line (backwards)
-#define DEL_WD LOPT(KC_BSPC) // Delete a word (backwards)
+#define DEL_LN LCTL(KC_BSPC) // Delete a line (backwards)
+#define DEL_WD LALT(KC_BSPC) // Delete a word (backwards)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT_split_3x6_3(
@@ -54,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //,-----------------------------------------------------.                    ,-----------------------------------------------------.
             _______,    KC_0,    KC_1,    KC_2,    KC_3, XXXXXXX,                       DEL_LN, KC_HOME,   KC_UP,  KC_END, KC_PSCR,  KC_DEL,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            _______, XXXXXXX,    KC_4,    KC_5,    KC_6, XXXXXXX,                       DEL_WD, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, KC_HOME,
+            _______, XXXXXXX,    KC_4,    KC_5,    KC_6, XXXXXXX,                       DEL_WD, KC_LEFT, KC_DOWN, KC_RGHT, LOG_OUT, KC_HOME,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             _______, XXXXXXX,    KC_7,    KC_8,    KC_9,    KC_0,                          NIX,     MAC,  PRV_WS,  NXT_WS, KC_TRNS, KC_END,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
