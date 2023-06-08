@@ -20,6 +20,7 @@ enum layers {
 
 #define PRV_WS LCTL(LWIN(KC_LEFT))  // Previous workspace
 #define NXT_WS LCTL(LWIN(KC_RIGHT)) // Next workspace
+#define WIN_BS LWIN(KC_BSLS)        // Show windows Pop_OS
 
 #define DEL_LN LCMD(KC_BSPC) // Delete a line (backwards)
 #define DEL_WD LOPT(KC_BSPC) // Delete a word (backwards)
@@ -39,11 +40,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_SYM] = LAYOUT_split_3x6_3(
         //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-             KC_F12,   KC_F1,   KC_F2,  KC_F3,   KC_F4,   KC_F5,                         KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
+             KC_F12,   KC_F1,   KC_F2,  KC_F3,    KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             _______, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  KC_GRV,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            _______, KC_TILD,  KC_EQL, KC_PLUS, KC_LCBR, KC_LBRC,                      KC_RBRC, KC_RCBR,   KC_LT,   KC_GT, KC_PIPE, KC_PIPE,
+            _______, KC_TILD,  KC_EQL, KC_PLUS, KC_LCBR, KC_LBRC,                      KC_RBRC, KC_RCBR,   KC_LT,   KC_GT, KC_PIPE,  WIN_BS,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                                 _______, _______, _______,    _______, _______, KC_TRNS
                                             //`--------------------------'  `--------------------------'
@@ -51,7 +52,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NAV] = LAYOUT_split_3x6_3(
         //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            _______,    KC_0,    KC_1,    KC_2,    KC_3, XXXXXXX,                       DEL_LN, KC_HOME,   KC_UP,  KC_END, KC_PSCR, _______,
+            _______,    KC_0,    KC_1,    KC_2,    KC_3, XXXXXXX,                       DEL_LN, KC_HOME,   KC_UP,  KC_END, KC_PSCR,  KC_DEL,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             _______, XXXXXXX,    KC_4,    KC_5,    KC_6, XXXXXXX,                       DEL_WD, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, KC_HOME,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
