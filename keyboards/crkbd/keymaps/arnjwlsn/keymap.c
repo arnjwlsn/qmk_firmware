@@ -12,8 +12,8 @@ enum layers {
 #define NIX CG_NORM // Default behavior for Linux
 #define MAC CG_SWAP // Swap ctrl & GUI (cmd) for Mac
 
-#define WIN_SYM LT(_SYM, KC_LWIN) // Turn on symbol layer when held, kc when tapped
-#define NV_SLSH LT(_NAV, KC_SLSH) // Turn on navigation layer when held, kc when tapped
+#define WIN_SYM LT(_SYM, KC_LWIN) // Turn on symbol layer when held, kc when tapped     
+#define NV_SLSH LT(_NAV, KC_SLSH) // Turn on navigation layer when held, kc when tapped 
 
 #define LALT_Z LALT_T(KC_Z)     // Left Alt when held, Z when tapped
 #define LCTL_BS LCTL_T(KC_BSLS) // Left Alt when held, Z when tapped
@@ -23,9 +23,11 @@ enum layers {
 #define NXT_WS LCTL(LWIN(KC_RIGHT)) // Next workspace
 #define WIN_BS LWIN(KC_BSLS)        // Show windows Pop_OS
 #define LOG_OUT LWIN(KC_L)          // Log out
+#define ALT_Z LALT(KC_Z)            // Alt+Z
+#define MT_SLK LCTL(LSFT(KC_SPC))   // Mute Slack
 
 #define DEL_LN LCTL(KC_BSPC) // Delete a line (backwards)
-#define DEL_WD LALT(KC_BSPC) // Delete a word (backwards)
+#define DEL_WD LALT(KC_BSPC) // Delete a word (backwards)       
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT_split_3x6_3(
@@ -54,16 +56,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NAV] = LAYOUT_split_3x6_3(
         //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            _______,    KC_0,    KC_1,    KC_2,    KC_3, XXXXXXX,                       DEL_LN, KC_HOME,   KC_UP,  KC_END, KC_PSCR,  KC_DEL,
+            _______,    KC_0,    KC_1,    KC_2,    KC_3,     NIX,                      XXXXXXX, KC_HOME,   KC_UP,  KC_END, KC_PSCR,  KC_DEL,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            _______, XXXXXXX,    KC_4,    KC_5,    KC_6, XXXXXXX,                       DEL_WD, KC_LEFT, KC_DOWN, KC_RGHT, LOG_OUT, KC_HOME,
+            _______,  KC_DOT,    KC_4,    KC_5,    KC_6,     MAC,                       DEL_WD, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, LOG_OUT,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            _______, XXXXXXX,    KC_7,    KC_8,    KC_9,    KC_0,                          NIX,     MAC,  PRV_WS,  NXT_WS, KC_TRNS, KC_END,
+            _______,   ALT_Z,    KC_7,    KC_8,    KC_9,    KC_0,                       DEL_LN, XXXXXXX,  PRV_WS,  NXT_WS, KC_TRNS, XXXXXXX,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                _______, _______, _______,    _______, _______, _______
+                                                _______, _______, _______,     MT_SLK, KC_VOLD, KC_VOLU
                                             //`--------------------------'  `--------------------------'
         )
 };
+
+// https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#hold-on-other-key-press
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case WIN_SYM:
+      return true;
+    default:
+      return false;
+  }
+}
 
 #ifdef OLED_ENABLE
 

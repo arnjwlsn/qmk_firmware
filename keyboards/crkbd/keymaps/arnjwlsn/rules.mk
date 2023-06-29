@@ -5,3 +5,4 @@ OLED_DRIVER     = SSD1306
 LTO_ENABLE      = yes
 BOOTLOADER      = atmel-dfu
 COMBO_ENABLE    = no
+DYNAMIC_TAPPING_TERM_ENABLE = yes
