@@ -4,34 +4,31 @@
 #include <stdio.h>
 
 enum layers {
-    _BASE, // default base layer
-    _SYM,  // symbols
-    _NAV,  // navigation (right hand) and number pad (left hand)
+    _BASE, // Default base layer
+    _SYM,  // Symbols
+    _NAV,  // Navigation (right hand) and number pad (left hand)
 };
 
-#define NIX CG_NORM // Default behavior for Linux
-#define MAC CG_SWAP // Swap ctrl & GUI (cmd) for Mac
+#define WIN_SYM LT(_SYM, KC_LWIN) // Turn on symbol layer when held, kc when tapped
+#define NV_SLSH LT(_NAV, KC_SLSH) // Turn on navigation layer when held, kc when tapped
 
-#define WIN_SYM LT(_SYM, KC_LWIN) // Turn on symbol layer when held, kc when tapped     
-#define NV_SLSH LT(_NAV, KC_SLSH) // Turn on navigation layer when held, kc when tapped 
-
-#define LALT_Z LALT_T(KC_Z)     // Left Alt when held, Z when tapped
+#define LALT_Z  LALT_T(KC_Z)    // Left Alt when held, Z when tapped
 #define LCTL_BS LCTL_T(KC_BSLS) // Left Alt when held, Z when tapped
 
 // Combos
-#define PRV_WS LCTL(LWIN(KC_LEFT))  // Previous workspace
-#define NXT_WS LCTL(LWIN(KC_RIGHT)) // Next workspace
-#define WIN_BS LWIN(KC_BSLS)        // Show windows Pop_OS
-#define LOG_OUT LWIN(KC_L)          // Log out
-#define ALT_Z LALT(KC_Z)            // Alt+Z
-#define MT_SLK LCTL(LSFT(KC_SPC))   // Mute Slack
+#define PRV_WS  LCTL(LWIN(KC_LEFT))  // Previous workspace
+#define NXT_WS  LCTL(LWIN(KC_RIGHT)) // Next workspace
+#define ALL_WIN LGUI(KC_W)           // Show windows
+#define LOG_OUT LWIN(KC_L)           // Log out
+#define WIN_DOT LWIN(KC_DOT)         // Emoji
+#define ALT_Z   LALT(KC_Z)           // Alt+Z
 
 #define DEL_LN LCTL(KC_BSPC) // Delete a line (backwards)
-#define DEL_WD LALT(KC_BSPC) // Delete a word (backwards)       
+#define DEL_WD LALT(KC_BSPC) // Delete a word (backwards)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT_split_3x6_3(
-        //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
              KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_MINS,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
              KC_ESC,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
@@ -39,33 +36,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             KC_LCTL,  LALT_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, NV_SLSH, LCTL_BS,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                                 KC_LSFT,  KC_SPC, KC_BSPC,     KC_ENT, KC_LSFT, WIN_SYM
-                                            //`--------------------------'  `--------------------------'
+                                            //|--------+--------+--------|   |-------+--------+--------|
         ),
 
+    // Right thumb layer
     [_SYM] = LAYOUT_split_3x6_3(
-        //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
              KC_F12,   KC_F1,   KC_F2,  KC_F3,    KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             _______, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  KC_GRV,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            _______, KC_TILD,  KC_EQL, KC_PLUS, KC_LCBR, KC_LBRC,                      KC_RBRC, KC_RCBR,   KC_LT,   KC_GT, KC_PIPE,  WIN_BS,
+            _______, KC_TILD,  KC_EQL, KC_PLUS, KC_LCBR, KC_LBRC,                      KC_RBRC, KC_RCBR,   KC_LT,   KC_GT, KC_PIPE, ALL_WIN,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                                 _______, _______, _______,    _______, _______, KC_TRNS
-                                            //`--------------------------'  `--------------------------'
+                                            //|--------+--------+--------|   |-------+--------+--------|
         ),
 
+    // Right pinky layer
     [_NAV] = LAYOUT_split_3x6_3(
-        //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            _______,    KC_0,    KC_1,    KC_2,    KC_3,     NIX,                      XXXXXXX, KC_HOME,   KC_UP,  KC_END, KC_PSCR,  KC_DEL,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            _______,  KC_DOT,    KC_4,    KC_5,    KC_6,     MAC,                       DEL_WD, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, LOG_OUT,
+            _______,    KC_0,    KC_1,    KC_2,    KC_3, KC_PLUS,                      XXXXXXX, KC_HOME,   KC_UP,  KC_END, KC_PSCR,  KC_DEL,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            _______,   ALT_Z,    KC_7,    KC_8,    KC_9,    KC_0,                       DEL_LN, XXXXXXX,  PRV_WS,  NXT_WS, KC_TRNS, XXXXXXX,
+            _______,  KC_DOT,    KC_4,    KC_5,    KC_6, KC_MINS,                      KC_ASTR, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, LOG_OUT,
+        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+            _______,   ALT_Z,   KC_7,    KC_8,    KC_9,     KC_0,                       DEL_WD, KC_SLSH,  PRV_WS,  NXT_WS, KC_TRNS, WIN_DOT,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                _______, _______, _______,     MT_SLK, KC_VOLD, KC_VOLU
-                                            //`--------------------------'  `--------------------------'
+                                                _______, _______, _______,    _______, KC_VOLD, KC_VOLU
+                                            //|--------+--------+--------|   |-------+--------+--------|
         )
 };
+
+// Shift + Backspace = Delete (override)
+const key_override_t delete_override = ko_make_with_layers_and_negmods(
+    MOD_MASK_SHIFT, KC_BSPC, KC_DEL, 0xFFFF, 0
+);
+
+const key_override_t *key_overrides[] = { &delete_override, NULL };
 
 // https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#hold-on-other-key-press
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
@@ -169,18 +175,11 @@ static void render_rocket(void) {
 
     switch (get_highest_layer(layer_state)) {
         case _SYM:
-            if (keymap_config.swap_lctl_lgui) {
-                oled_write_P(PSTR("mac_s"), false);
-            } else {
-                oled_write_P(PSTR("s"), false);
-            }
+            oled_write_P(PSTR("SYM"), false);
             break;
+
         case _NAV:
-            if (keymap_config.swap_lctl_lgui) {
-                oled_write_P(PSTR("mac_n"), false);
-            } else {
-                oled_write_P(PSTR("n"), false);
-            }
+            oled_write_P(PSTR("NAV"), false);
             break;
     }
 }
