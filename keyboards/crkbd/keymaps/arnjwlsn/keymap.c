@@ -6,11 +6,13 @@
 enum layers {
     _BASE, // Default base layer
     _SYM,  // Symbols
-    _NAV,  // Navigation (right hand) and number pad (left hand)
+    _NAV1, // Navigation (right hand) and number pad (left hand)
+    _NAV2, // Navigation (left hand)
 };
 
-#define WIN_SYM LT(_SYM, KC_LWIN) // Turn on symbol layer when held, kc when tapped
-#define NV_SLSH LT(_NAV, KC_SLSH) // Turn on navigation layer when held, kc when tapped
+#define WIN_SYM LT(_SYM, KC_LWIN)  // Turn on symbol layer when held, kc when tapped
+#define NV_SLSH LT(_NAV1, KC_SLSH) // Turn on navigation layer when held, kc when tapped
+#define NV_A    LT(_NAV2, KC_A)    // Turn on navigation layer when held, kc when tapped
 
 #define LALT_Z  LALT_T(KC_Z)    // Left Alt when held, Z when tapped
 #define LCTL_BS LCTL_T(KC_BSLS) // Left Alt when held, Z when tapped
@@ -31,7 +33,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
              KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_MINS,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-             KC_ESC,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+             KC_ESC,    NV_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LCTL,  LALT_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, NV_SLSH, LCTL_BS,
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -53,7 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ),
 
     // Right pinky layer
-    [_NAV] = LAYOUT_split_3x6_3(
+    [_NAV1] = LAYOUT_split_3x6_3(
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             _______,    KC_0,    KC_1,    KC_2,    KC_3, KC_PLUS,                      XXXXXXX, KC_HOME,   KC_UP,  KC_END, KC_PSCR,  KC_DEL,
         //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -63,8 +65,36 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                                 _______, _______, _______,    _______, KC_VOLD, KC_VOLU
                                             //|--------+--------+--------|   |-------+--------+--------|
+        ),
+
+    // Left pinky layer
+    [_NAV2] = LAYOUT_split_3x6_3(
+        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+            _______, _______, _______,   KC_UP, _______, _______,                      _______, _______, _______, _______, _______, _______,
+        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+            _______, KC_TRNS, KC_LEFT, KC_DOWN, KC_RGHT, _______,                      _______, _______, _______, _______, _______, _______,
+        //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+            _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
+        //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                                _______, _______, _______,    _______, _______, _______
+                                            //|--------+--------+--------|   |-------+--------+--------|
         )
 };
+
+// Adjust tapping term for layers
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case NV_A:
+            return 400;
+
+        case LALT_Z:
+        case LCTL_BS:
+            return 300;
+
+        default:
+            return TAPPING_TERM;
+    }
+}
 
 // Shift + Backspace = Delete (override)
 const key_override_t delete_override = ko_make_with_layers_and_negmods(
@@ -178,8 +208,12 @@ static void render_rocket(void) {
             oled_write_P(PSTR("SYM"), false);
             break;
 
-        case _NAV:
-            oled_write_P(PSTR("NAV"), false);
+        case _NAV1:
+            oled_write_P(PSTR("NV1"), false);
+            break;
+
+        case _NAV2:
+            oled_write_P(PSTR("NV2"), false);
             break;
     }
 }
