@@ -4,5 +4,4 @@ OLED_ENABLE     = yes
 LTO_ENABLE      = yes
 BOOTLOADER      = atmel-dfu
 COMBO_ENABLE    = no
-KEY_OVERRIDE_ENABLE = yes
 DYNAMIC_TAPPING_TERM_ENABLE = yes

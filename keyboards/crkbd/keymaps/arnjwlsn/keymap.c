@@ -96,13 +96,6 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-// Shift + Backspace = Delete (override)
-const key_override_t delete_override = ko_make_with_layers_and_negmods(
-    MOD_MASK_SHIFT, KC_BSPC, KC_DEL, 0xFFFF, 0
-);
-
-const key_override_t *key_overrides[] = { &delete_override, NULL };
-
 // https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#hold-on-other-key-press
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
